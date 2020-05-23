@@ -1,7 +1,26 @@
 ﻿@page "/"
+@using System;
+@using System.Threading.Tasks;
 
-<h1>Hello, world!</h1>
+@inject HttpClient Http
 
-Welcome to your new app.
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        //string url = "https://snerks.github.io/my-blog-starter/rss.xml";
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+        string url = "https://feeds.feedburner.com/GrabBagOfT";
+
+        try
+        {
+            var rssXmlBytes = await Http.GetByteArrayAsync(url);
+            Console.WriteLine("No exception");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
+    }
+}
+
